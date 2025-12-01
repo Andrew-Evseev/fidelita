@@ -1,0 +1,44 @@
+# Flutter
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Android
+android/gradle/
+android/.gradle/
+android/app/build/
+android/local.properties
+
+# iOS
+ios/Flutter/Flutter.framework/
+ios/Flutter/Flutter.podspec
+ios/.symlinks/
+ios/Pods/
+ios/Runner.xcworkspace/
+
+# macOS
+macos/Flutter/Flutter.framework/
+macos/Flutter/Flutter.podspec
+macos/.symlinks/
+macos/Pods/
+
+# Web
+.webpack/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local

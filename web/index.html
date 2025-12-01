@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Fidelita - система лояльности для салонов красоты">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="fidelita">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <title>Fidelita - Система лояльности</title>
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    /* Стили для загрузочного экрана */
+    .loading-screen {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #8B7355 0%, #C5A47E 100%);
+      color: white;
+      font-family: 'Arial', sans-serif;
+    }
+    
+    .loading-content {
+      text-align: center;
+    }
+    
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin: 0 auto 20px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .admin-panel .loading-screen {
+      background: linear-gradient(135deg, #2C5530 0%, #4A7C59 100%);
+    }
+  </style>
+</head>
+<body>
+  <div id="loading" class="loading-screen">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <h1>Fidelita</h1>
+      <p>Загрузка приложения...</p>
+    </div>
+  </div>
+
+  <script>
+    // Этот скрипт выполняется до загрузки Flutter
+    console.log('Fidelita App - Starting...');
+    
+    // Определяем, это админка или основное приложение
+    function isAdminPanel() {
+      const path = window.location.pathname;
+      const search = window.location.search;
+      
+      console.log('Current path:', path);
+      console.log('Current search:', search);
+      
+      return path.startsWith('/admin') || 
+             search.includes('admin=true') ||
+             path.includes('admin');
+    }
+
+    // Если это админ-панель, добавляем класс к body и меняем заголовок
+    if (isAdminPanel()) {
+      console.log('Loading Admin Panel...');
+      document.body.classList.add('admin-panel');
+      document.title = 'Fidelita Admin - Панель управления';
+      
+      // Обновляем заголовок на загрузочном экране
+      const loadingTitle = document.querySelector('.loading-content h1');
+      const loadingText = document.querySelector('.loading-content p');
+      if (loadingTitle) loadingTitle.textContent = 'Fidelita Admin';
+      if (loadingText) loadingText.textContent = 'Загрузка панели управления...';
+    } else {
+      console.log('Loading Main App...');
+    }
+
+    // Скрываем загрузочный экран когда Flutter загрузится
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        const loadingElement = document.getElementById('loading');
+        if (loadingElement) {
+          loadingElement.style.display = 'none';
+        }
+      }, 1000);
+    });
+
+    // Service worker registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('flutter_service_worker.js')
+          .then(function(registration) {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          })
+          .catch(function(error) {
+            console.log('ServiceWorker registration failed: ', error);
+          });
+      });
+    }
+
+    // Обработка ошибок загрузки
+    window.addEventListener('error', function(e) {
+      console.error('Application error:', e.error);
+      const loadingElement = document.getElementById('loading');
+      if (loadingElement) {
+        loadingElement.innerHTML = `
+          <div class="loading-content">
+            <h1>Ошибка загрузки</h1>
+            <p>Не удалось загрузить приложение. Пожалуйста, обновите страницу.</p>
+            <button onclick="window.location.reload()">Обновить</button>
+          </div>
+        `;
+      }
+    });
+  </script>
+
+  <!-- Flutter application -->
+  <script src="main.dart.js" type="application/javascript"></script>
+  
+  <script>
+    // Убедимся, что скрипт выполняется после загрузки Flutter
+    window.addEventListener('flutter-first-frame', function() {
+      console.log('Flutter first frame rendered');
+      const loadingElement = document.getElementById('loading');
+      if (loadingElement) {
+        loadingElement.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
