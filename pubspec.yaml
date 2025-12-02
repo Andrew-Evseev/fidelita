@@ -11,8 +11,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
+  # UI и навигация
   provider: ^6.1.1
   google_fonts: ^6.1.0
+  
+  # Локальное хранение данных
   shared_preferences: ^2.2.2
 
 dev_dependencies:
