@@ -6,7 +6,7 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.4.0 <4.0.0'  # Исправленная версия
 
 dependencies:
   flutter:
@@ -19,6 +19,12 @@ dependencies:
   # Локальное хранение данных
   shared_preferences: ^2.2.2
 
+  # Новые зависимости для админ-панели:
+  syncfusion_flutter_charts: ^24.1.47
+  syncfusion_flutter_datagrid: ^24.1.47
+  animations: ^2.0.8
+  shimmer: ^3.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -29,3 +35,5 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/lottie/
+    - assets/svg/
